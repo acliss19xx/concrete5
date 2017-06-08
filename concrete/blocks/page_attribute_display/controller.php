@@ -96,7 +96,17 @@ class Controller extends BlockController
                         } elseif ($content instanceof SelectValue) {
                             $content = (string) $content;
                         } else {
-                            $content = $content_alt->getDisplayValue();
+                            $aks = $content_alt->getAttributeKey()->getAttributeKeySettings();
+                            if($aks instanceof \Concrete\Core\Entity\Attribute\Key\Settings\TextareaSettings){
+                                $type = $aks->getMode();
+                                if($type == "text"){
+                                    $content = nl2br($content_alt->getDisplayValue());
+                                }else{
+                                    $content = $content_alt->getDisplayValue();
+                                }
+                            }else{
+                                $content = $content_alt->getDisplayValue();
+                            }
                         }
                     }
                 }
